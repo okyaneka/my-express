@@ -20,3 +20,11 @@ pnpm dev
 pnpm build
 pnpm start
 ```
+
+## deploy
+
+Deploy using vercel
+
+```bash
+pnpm run build
+```
