@@ -4,9 +4,10 @@
   "description": "",
   "main": "src/main.js",
   "scripts": {
-    "build": "npx tsc",
+    "build": "tsc",
     "start": "node dist/main.js",
-    "dev": "nodemon src/main.ts"
+    "dev": "nodemon src/main.ts",
+    "deploy": "tsc && vercel"
   },
   "keywords": [],
   "author": "",
@@ -18,8 +19,10 @@
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/node": "^22.5.5",
+    "concurrently": "^9.0.1",
     "nodemon": "^3.1.6",
     "ts-node": "^10.9.2",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.2",
+    "vercel": "^37.5.3"
   }
 }
