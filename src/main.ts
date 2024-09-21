@@ -10,7 +10,7 @@ app.get("/", (req: Request, res: Response) => {
   res.json({
     code: res.statusCode,
     status: "success",
-    message: "Hello World",
+    message: "Welcome to My Express",
     data: {},
   });
 });
