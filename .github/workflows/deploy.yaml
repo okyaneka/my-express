@@ -18,21 +18,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "20" # Specify the Node.js version your app uses
-      - name: print secret
-        run: echo "${{secrets.VERCEL_ORG_ID}} ${{secrets.VERCEL_PROJECT_ID}} ${{ secrets.VERCEL_TOKEN }}"
-      - name: Install PNPM
-        run: npm install --global pnpm
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
-      - name: Build App
-        run: pnpm install && pnpm build
-      - name: Deploy to Vercel
-        run: |
-          npm install -g vercel
-          vercel --prod --token $VERCEL_TOKEN --confirm
-      # - name: Pull Vercel Environment Information
-      #   run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-      # - name: Build Project Artifacts
-      #   run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-      # - name: Deploy Project Artifacts to Vercel
-      #   run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Build Project Artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy Project Artifacts to Vercel
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
