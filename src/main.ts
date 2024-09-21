@@ -7,7 +7,12 @@ const app: Express = express();
 const port = process.env.PORT || 3000;
 
 app.get("/", (req: Request, res: Response) => {
-  res.json({ message: "Hello World" });
+  res.json({
+    code: res.statusCode,
+    status: "success",
+    message: "Hello World",
+    data: {},
+  });
 });
 
 app.listen(port, () => {
