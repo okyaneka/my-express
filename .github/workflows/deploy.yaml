@@ -1,8 +1,5 @@
 name: Vercel Deployment
-env:
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
 on:
   push:
     # branches:
@@ -10,6 +7,10 @@ on:
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
+    environment: production
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     steps:
       - uses: actions/checkout@v2
       - name: Install PNPM
@@ -18,8 +19,6 @@ jobs:
         run: npm install --global vercel@latest
       - name: Install & Build
         run: pnpm install && pnpm build
-      - name: print secret
-        run: echo "$SUPER_SECRET"
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
       - name: Build Project Artifacts
