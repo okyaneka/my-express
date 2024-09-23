@@ -14,7 +14,11 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.4.5",
-    "express": "^4.21.0"
+    "express": "^4.21.0",
+    "module-alias": "^2.2.3",
+    "mysql2": "^3.11.3",
+    "tsconfig-paths": "^4.2.0",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
@@ -24,5 +28,8 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2",
     "vercel": "^37.5.3"
+  },
+  "_moduleAliases": {
+    "@": "dist"
   }
 }
