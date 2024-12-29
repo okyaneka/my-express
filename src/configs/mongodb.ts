@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import ENV from "./env";
 
-const mongodb = async (): Promise<void> => {
+const mongodb = async () => {
   try {
     const uri = ENV.MONGO_URI;
     await mongoose.connect(uri, { dbName: ENV.MONGO_DB_NAME });

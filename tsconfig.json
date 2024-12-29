@@ -1,15 +1,16 @@
 {
   "compilerOptions": {
-    "target": "ES6",
-    "module": "CommonJS",
-    "rootDir": "./src",
-    "outDir": "./dist",
-    "strict": true,
+    "baseUrl": ".",
     "esModuleInterop": true,
-    "skipLibCheck": true,
+    "module": "CommonJS",
+    "outDir": "./dist",
     "paths": {
       "~/*": ["./src/*"]
-    }
+    },
+    "rootDir": "./src",
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ES6"
   },
 
   "include": ["src/**/*"],
