@@ -29,8 +29,10 @@ AuthRoute.post("/login", async (req, res) => {
   const validation = result.error?.details.reduce((car, cur) => {
     return { ...car, [cur.context?.key as string]: cur.message };
   }, {});
-  if (validation)
+  if (validation) {
     res.status(400).json(response.error({ validation }, "Validation error"));
+    return;
+  }
 
   const email = req.body.email;
   const user = await User.findOne({ email });
@@ -61,13 +63,17 @@ AuthRoute.post("/register", async (req, res) => {
   const validation = result.error?.details.reduce((car, cur) => {
     return { ...car, [cur.context?.key as string]: cur.message };
   }, {});
-  if (validation)
+  if (validation) {
     res.status(400).json(response.error({ validation }, "Validation error"));
+    return;
+  }
 
   const email = req.body.email;
   const userExists = await User.findOne({ email });
-  if (userExists)
+  if (userExists) {
     res.status(400).json(response.error({}, "User already exists"));
+    return;
+  }
 
   const password = await bcrypt.hash(req.body.password, 10);
   const user = new User({ ...result.value, password });

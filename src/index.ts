@@ -18,6 +18,10 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
 routes(app);
 middleware(app);
 
+app.use((req, res, next) => {
+  res.status(404).send(response.error(null, "Route not found", 404));
+});
+
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
