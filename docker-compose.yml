@@ -1,0 +1,77 @@
+services:
+  redis:
+    image: redis:7.4.2-alpine
+    container_name: redis-service
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    restart: always
+    environment:
+      - REDIS_PASSWORD=password
+    command: [ "redis-server", "--requirepass", "${REDIS_PASSWORD}" ]
+
+  mongo-rs0-1:
+    image: mongo:8.0-noble
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodata1:/data/db
+      - ./mongo-keyfile:/etc/mongo/keyfile
+    command: [ --replSet, rs0, --keyFile, /etc/mongo/keyfile, --bind_ip_all ]
+
+  mongo-rs0-2:
+    image: mongo:8.0-noble
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+    ports:
+      - 27018:27017
+    volumes:
+      - mongodata2:/data/db
+      - ./mongo-keyfile:/etc/mongo/keyfile
+    command: [ --replSet, rs0, --keyFile, /etc/mongo/keyfile, --bind_ip_all ]
+
+  mongo-rs0-3:
+    image: mongo:8.0-noble
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+    ports:
+      - 27019:27017
+    volumes:
+      - mongodata3:/data/db
+      - ./mongo-keyfile:/etc/mongo/keyfile
+    command: [ --replSet, rs0, --keyFile, /etc/mongo/keyfile, --bind_ip_all ]
+
+  setup:
+    image: mongo:8.0-noble
+    depends_on:
+      - mongo-rs0-1
+      - mongo-rs0-2
+      - mongo-rs0-3
+    entrypoint: >
+      bash -c "
+        sleep 10 &&
+        mongosh -u admin -p secret --host mongo-rs0-1 <<EOF
+        rs.initiate({
+          _id: 'rs0',
+          members: [
+            { _id: 0, host: 'mongo-rs0-1:27017' },
+            { _id: 1, host: 'mongo-rs0-2:27017' },
+            { _id: 2, host: 'mongo-rs0-3:27017' }
+          ]
+        }) 
+        rs.status()
+        EOF 
+      "
+      
+volumes:
+  mongodata1:
+  mongodata2:
+  mongodata3:
+  redisdata:
